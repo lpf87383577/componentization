@@ -1,0 +1,51 @@
+apply from: "${rootProject.rootDir}/config.gradle"
+if (Boolean.valueOf(rootProject.ext.moduleA)) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+android {
+
+    project.ext.setDefaultConfig project
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //选用不同的AndroidManifest清单文件
+    sourceSets {
+        main {
+            if (rootProject.ext.moduleA) {
+                manifest.srcFile 'src/main/aloneManifest/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    //排除java/debug文件夹下的所有文件
+                    exclude '*module'
+                }
+            }
+        }
+    }
+
+    defaultConfig {
+        //Arouter路由配置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Arouter路由
+    annotationProcessor "com.alibaba:arouter-compiler:$rootProject.arouterCompilerVersion"
+    implementation project(":baselib")
+}
