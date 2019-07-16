@@ -8,6 +8,7 @@ package com.shinhoandroid.baselib;
 public interface RouterPath {
 
     String MALL_HOME = "/home/home";
+    String MALL_HOME_fragment = "/home/fragment";
     String MALL_A = "/a/a";
     String MALL_B = "/b/b";
 

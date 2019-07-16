@@ -4,9 +4,9 @@ buildscript {
 
     ext {
         //是否单独运行
-        isRunAlone = true
+        isRunAlone = false
         //首页模块
-        moduleHome = true
+        moduleHome = false
         //A模块
         moduleA = false
         //B模块
